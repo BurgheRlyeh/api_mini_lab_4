@@ -1,0 +1,1 @@
+export const defaultPicURL = "https://www.sifalibitkilerim.com/images/comment.png";

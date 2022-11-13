@@ -1,5 +1,14 @@
-# Created by https://www.toptal.com/developers/gitignore/api/webstorm,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=webstorm,node
+# Created by https://www.toptal.com/developers/gitignore/api/node,webstorm,firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,webstorm,firebase
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
 
 ### Node ###
 # Logs
@@ -254,4 +263,4 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
-# End of https://www.toptal.com/developers/gitignore/api/webstorm,node
+# End of https://www.toptal.com/developers/gitignore/api/node,webstorm,firebase
