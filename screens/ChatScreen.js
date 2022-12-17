@@ -14,9 +14,10 @@ import React, {useLayoutEffect, useState} from "react";
 import {Avatar} from "react-native-elements";
 import {AntDesign, FontAwesome, Ionicons} from "@expo/vector-icons";
 import {defaultPicURL} from "../utils";
-import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp} from "firebase/firestore";
+import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, doc} from "firebase/firestore";
 import {auth, db} from "../firebase";
 import {StatusBar} from "expo-status-bar";
+import {deleteDoc} from "@firebase/firestore";
 
 
 const ChatScreen = ({ navigation, route }) => {
@@ -76,6 +77,7 @@ const ChatScreen = ({ navigation, route }) => {
             setInput("");
         }).catch((error) => alert(error.message))
     };
+    const delMessage = (id) => deleteDoc(doc(db, "chats", route.params.id, "messages", id)).then()
 
     useLayoutEffect(() => {
         const q = query(collection(db, "chats", route.params.id, "messages"),
@@ -104,22 +106,24 @@ const ChatScreen = ({ navigation, route }) => {
                 <ScrollView contentContainerStyle={{paddingTop: 15}}>
                     {messages.map(({id, data}) => (
                         data.email === auth.currentUser.email ? (
-                            <View key={id} style={styles.userMessage}>
-                                <Avatar
-                                    rounded
-                                    source={{uri: data.photoUrl}}
-                                    // WEB
-                                    containerStyle={{
-                                        position: "absolute",
-                                        bottom: -15,
-                                        right: -5,
-                                    }}
-                                    position="absolute"
-                                    bottom={-15}
-                                    right={-5}
-                                    size={30}/>
-                                <Text style={styles.userText}>{data.message}</Text>
-                            </View>
+                            <TouchableOpacity key={id} onPress={() => delMessage(id)}>
+                                <View key={id} style={styles.userMessage}>
+                                    <Avatar
+                                        rounded
+                                        source={{uri: data.photoUrl}}
+                                        // WEB
+                                        containerStyle={{
+                                            position: "absolute",
+                                            bottom: -15,
+                                            right: -5,
+                                        }}
+                                        position="absolute"
+                                        bottom={-15}
+                                        right={-5}
+                                        size={30}/>
+                                    <Text style={styles.userText}>{data.message}</Text>
+                                </View>
+                            </TouchableOpacity>
                         ) : (
                             <View key={id} style={styles.senderMessage}>
                                 <Text style={styles.senderText}>{data.message}</Text>
